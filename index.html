@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>变更验证查字典 · 设计部零部件变更验证管理办法</title>
+<title>懋略设计部PACK零部件变更验证速查字典</title>
 <meta name="robots" content="noindex,nofollow">
 <style>
 :root{
@@ -76,7 +76,7 @@ footer{margin-top:28px;color:var(--sub);font-size:12px;text-align:center;line-he
 <body>
 <div id="gate">
   <div class="gate-box">
-    <div class="gate-title">变更验证查字典</div>
+    <div class="gate-title">懋略设计部PACK零部件变更验证速查字典</div>
     <div class="gate-sub">内部受控工具 · 请输入访问口令</div>
     <input id="gateInput" type="password" placeholder="访问口令" autocomplete="off">
     <button id="gateBtn">进 入</button>
@@ -102,7 +102,7 @@ footer{margin-top:28px;color:var(--sub);font-size:12px;text-align:center;line-he
   if(sessionStorage.getItem('cv_auth')==='1'){gate.remove();return;}
   document.title="访问验证";
   var inp=document.getElementById('gateInput'),err=document.getElementById('gateErr');
-  function ok(){sessionStorage.setItem('cv_auth','1');gate.remove();document.title='变更验证查字典 · 设计部零部件变更验证管理办法';}
+  function ok(){sessionStorage.setItem('cv_auth','1');gate.remove();document.title='懋略设计部PACK零部件变更验证速查字典';}
   function bad(){err.classList.add('show');inp.value='';inp.focus();}
   function tryLogin(){
     var v=inp.value;
@@ -121,7 +121,7 @@ footer{margin-top:28px;color:var(--sub);font-size:12px;text-align:center;line-he
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>变更验证查字典</h1>
+      <h1>懋略设计部PACK零部件变更验证速查字典</h1>
       <div class="sub">选择零部件 + 变更类型，自动生成需要执行的验证与认可动作清单 · 依据《设计部零部件变更验证管理办法》</div>
     </div>
     <span class="badge-ver">V1.0</span>
@@ -146,7 +146,7 @@ footer{margin-top:28px;color:var(--sub);font-size:12px;text-align:center;line-he
   </div>
 
   <footer>
-    依据《设计部零部件变更验证管理办法》V1.0 · 试验标准以现行有效版本为准（GB 38031 / GB/T 31467.3 / ISO 12405 / UL 2580 / ECE R100 等）<br>
+    🔧 配套工具：<a href="spec.html" style="color:#2f6bff">零部件通用技术要求速查</a><br>依据《设计部零部件变更验证管理办法》V1.0 · 试验标准以现行有效版本为准（GB 38031 / GB/T 31467.3 / ISO 12405 / UL 2580 / ECE R100 等）<br>
     同一零部件多项变更同时发生时，验证项取并集、级别就高 · 本工具结果供快速参考，正式放行以会签的《变更验证计划单》为准
   </footer>
 </div>
