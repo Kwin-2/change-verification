@@ -6,63 +6,118 @@
 <title>懋略设计部PACK零部件通用技术要求速查</title>
 <meta name="robots" content="noindex,nofollow">
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2333;--sub:#5b6474;--line:#e5e8ee;--blue:#2f6bff;--blue-soft:#eaf0ff;--green:#0f9d6c;--radius:14px}
+:root{
+  --bg:#EFEDE5; --card:#FFFFFF; --ink:#16150F; --sub:#7A7466; --line:#E7E3D8;
+  --acc:#FFC61A; --acc-soft:#FFF4D1; --dark:#1C1C1E;
+  --radius:22px;
+}
 *{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
 body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
-.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 80px}
-header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
-h1{font-size:24px;font-weight:700;letter-spacing:.5px}
-.sub{color:var(--sub);font-size:13px;margin-top:4px}
-.badge-ver{background:var(--ink);color:#fff;border-radius:999px;padding:4px 12px;font-size:12px;white-space:nowrap}
-.layout{display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}
-@media(max-width:900px){.layout{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:14px}
-.card h2{font-size:14px;color:var(--sub);font-weight:600;margin-bottom:10px;letter-spacing:1px}
-.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.spec-btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-size:13px;cursor:pointer;text-align:left;transition:all .15s;color:var(--ink)}
-.spec-btn:hover{border-color:var(--blue);color:var(--blue)}
-.spec-btn.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
-.fq{margin-bottom:14px}
-.fq .q{font-size:13px;font-weight:600;margin-bottom:6px}
-.opts{display:flex;flex-wrap:wrap;gap:6px}
-.opt{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer;color:var(--ink)}
-.opt.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue);font-weight:600}
-.panel-sticky{position:sticky;top:16px}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;font-size:13px;cursor:pointer;color:var(--ink)}
-.btn:hover{border-color:var(--blue);color:var(--blue)}
-.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
-.doc{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 30px}
-.doc h3{font-size:19px;text-align:center;margin-bottom:2px}
-.doc .docno{text-align:center;color:var(--sub);font-size:12px;margin-bottom:4px}
-.doc .docvar{text-align:center;color:var(--blue);font-size:12.5px;margin-bottom:18px}
-.doc h4{font-size:15px;margin:18px 0 8px;padding-left:10px;border-left:4px solid var(--blue)}
-.doc li{margin:4px 0 4px 22px;font-size:14px}
-.doc .note{font-size:12px;color:var(--sub);margin-top:18px;border-top:1px dashed var(--line);padding-top:10px}
-.empty{color:var(--sub);text-align:center;padding:60px 20px;font-size:14px}
-footer{margin-top:28px;color:var(--sub);font-size:12px;text-align:center;line-height:2}
-#gate{position:fixed;inset:0;background:linear-gradient(160deg,#1c2333,#274070);z-index:9999;display:flex;align-items:center;justify-content:center}
-.gate-box{background:#fff;border-radius:18px;padding:36px 40px;text-align:center;width:320px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-.gate-title{font-size:20px;font-weight:700;color:#1c2333}
-.gate-sub{font-size:12px;color:#5b6474;margin:6px 0 18px}
-#gateInput{width:100%;box-sizing:border-box;border:1px solid #d8dde6;border-radius:10px;padding:10px 14px;font-size:15px;outline:none;text-align:center}
-#gateInput:focus{border-color:var(--blue)}
-#gateBtn{width:100%;margin-top:12px;background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px;font-size:15px;cursor:pointer}
-.gate-err{display:none;color:#d64545;font-size:12px;margin-top:10px}
-.gate-err.show{display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:32px 22px 90px}
+header.top{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+h1{font-size:30px;font-weight:800;letter-spacing:.5px}
+.sub{color:var(--sub);font-size:13.5px;margin-top:6px}
+.badge-ver{background:var(--dark);color:#fff;border-radius:999px;padding:7px 18px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.layout{display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start}
+@media(max-width:920px){.layout{grid-template-columns:1fr}}
+.card{background:var(--card);border:none;border-radius:var(--radius);padding:22px 22px;box-shadow:0 2px 14px rgba(30,28,20,.05)}
+.card h2{font-size:13px;color:var(--sub);font-weight:700;margin-bottom:14px;letter-spacing:2px}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.comp-btn{border:1.5px solid var(--line);background:#FBFAF6;border-radius:14px;padding:10px 12px;font-size:13px;cursor:pointer;text-align:left;transition:all .15s;color:var(--ink)}
+.comp-btn:hover{border-color:var(--ink)}
+.comp-btn.on{background:var(--dark);border-color:var(--dark);color:#fff;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;transition:all .15s;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:var(--ink);font-weight:700}
+.lv{font-size:10px;border-radius:999px;padding:2px 7px;font-weight:800}
+.lv-A{background:#FFE4DE;color:#C0392B}
+.lv-B{background:#FFF1D6;color:#9A6A00}
+.lv-C{background:#E2F4EA;color:#237A50}
+.lv-AB{background:#F0E6FD;color:#6D28B8}
+.chip.on .lv{background:rgba(0,0,0,.12);color:var(--ink)}
+.panel-sticky{position:sticky;top:20px}
+.hint{font-size:12.5px;color:var(--sub);margin-top:10px}
+.summary{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.sum-item{background:#fff;border:none;border-radius:18px;box-shadow:0 2px 14px rgba(30,28,20,.05);padding:16px 22px;min-width:140px}
+.sum-item b{font-size:30px;font-weight:800;display:block;line-height:1.2}
+.sum-item span{font-size:12px;color:var(--sub)}
+.sum-level{background:var(--dark);color:#fff}
+.sum-level span{color:#B8B3A6}
+.sum-level b{font-size:17px;padding-top:10px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.btn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--ink)}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--dark);border-color:var(--dark);color:#fff}
+.btn.primary:hover{opacity:.88}
+.level-guide{font-size:13.5px;color:#6B5E2E;background:var(--acc-soft);border:none;border-radius:18px;padding:14px 20px;margin-bottom:16px}
+.level-guide b{color:var(--ink)}
+.cat{background:#fff;border:none;border-radius:var(--radius);box-shadow:0 2px 14px rgba(30,28,20,.05);margin-bottom:14px;overflow:hidden}
+.cat-h{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.cat-h b{font-size:16px;font-weight:700}
+.cat-h .cnt{font-size:12px;color:var(--sub)}
+.cat-h .prog{color:var(--ink);font-weight:700;background:var(--acc-soft);border-radius:999px;padding:2px 10px}
+.items{border-top:1.5px solid #F2EEE3;padding:10px 24px 16px}
+.item{display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed #F0ECE1;font-size:14px}
+.item:last-child{border-bottom:none}
+.item input{margin-top:5px;accent-color:var(--dark);width:17px;height:17px;flex:none;cursor:pointer}
+.item label{cursor:pointer;flex:1}
+.item.done label{color:#B9B2A0;text-decoration:line-through}
+.tags{font-size:11px;color:var(--sub);margin-top:2px}
+.empty{color:var(--sub);text-align:center;padding:70px 20px;font-size:14px;background:#fff;border-radius:var(--radius)}
+footer{margin-top:32px;color:var(--sub);font-size:12px;text-align:center;line-height:2}
 @media print{
   body{background:#fff}
   .layout{grid-template-columns:1fr}
-  .panel-sticky,.toolbar,header.top .badge-ver,#gate{display:none!important}
-  .doc{border:none;padding:0}
-  .doc h4{break-after:avoid}
+  .panel-sticky,.toolbar,header.top .badge-ver{display:none!important}
+  .item input{appearance:none;width:13px;height:13px;border:1.5px solid #666;border-radius:3px;margin-top:4px}
+  .item input:checked{background:#666}
+  .cat{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
   .wrap{padding:0}
 }
+
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spec-btn{border:1.5px solid var(--line);background:#FBFAF6;border-radius:14px;padding:10px 12px;font-size:13px;cursor:pointer;text-align:left;transition:all .15s;color:var(--ink)}
+.spec-btn:hover{border-color:var(--ink)}
+.spec-btn.on{background:var(--dark);border-color:var(--dark);color:#fff;font-weight:700}
+.fq{margin-bottom:16px}
+.fq .q{font-size:13.5px;font-weight:700;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;color:var(--ink)}
+.opt:hover{border-color:var(--ink)}
+.opt.on{background:var(--acc);border-color:var(--acc);color:var(--ink);font-weight:700}
+.doc{background:#fff;border:none;border-radius:var(--radius);box-shadow:0 2px 14px rgba(30,28,20,.05);padding:34px 38px}
+.doc h3{font-size:24px;font-weight:800;text-align:center;margin-bottom:4px;letter-spacing:2px}
+.doc .docno{text-align:center;color:var(--sub);font-size:12px;margin-bottom:4px}
+.doc .docvar{text-align:center;color:var(--ink);background:var(--acc-soft);border-radius:999px;display:inline-block;padding:4px 16px;font-size:12.5px;margin:6px auto 20px}
+.doc .docvar-wrap{text-align:center}
+.doc h4{font-size:15.5px;font-weight:800;margin:22px 0 10px;padding-left:12px;border-left:5px solid var(--acc)}
+.doc li{margin:6px 0 6px 24px;font-size:14px}
+.doc .note{font-size:12px;color:var(--sub);margin-top:22px;border-top:1.5px dashed var(--line);padding-top:12px}
+@media print{
+  .doc{box-shadow:none;padding:0}
+  #gate{display:none!important}
+  .doc h4{break-after:avoid}
+}
+
+#gate{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center}
+.gate-box{background:#fff;border-radius:26px;padding:46px 44px;text-align:center;width:350px;box-shadow:0 24px 60px rgba(30,28,20,.14)}
+.gate-badge{width:52px;height:52px;border-radius:16px;background:var(--acc);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--ink)}
+.gate-title{font-size:20px;font-weight:800;color:var(--ink);line-height:1.5}
+.gate-sub{font-size:12.5px;color:var(--sub);margin:8px 0 20px}
+#gateInput{width:100%;box-sizing:border-box;border:1.5px solid var(--line);background:#FBFAF6;border-radius:999px;padding:12px 18px;font-size:15px;outline:none;text-align:center}
+#gateInput:focus{border-color:var(--acc)}
+#gateBtn{width:100%;margin-top:14px;background:var(--dark);color:#fff;border:none;border-radius:999px;padding:13px;font-size:15px;font-weight:700;cursor:pointer}
+#gateBtn:hover{opacity:.88}
+.gate-err{display:none;color:#C0392B;font-size:12px;margin-top:12px}
+.gate-err.show{display:block}
 </style>
 </head>
 <body>
 <div id="gate">
   <div class="gate-box">
+    <div class="gate-badge">M</div>
     <div class="gate-title">懋略设计部PACK零部件<br>通用技术要求速查</div>
     <div class="gate-sub">内部受控工具 · 请输入访问口令</div>
     <input id="gateInput" type="password" placeholder="访问口令" autocomplete="off">
@@ -199,7 +254,7 @@ function render(){
    +'<div class="doc" id="doc">'
    +'<h3>产品技术要求</h3>'
    +'<div class="docno">'+sp.doc_no+' · 版本 V1.0 · 密级：内部受控</div>'
-   +'<div class="docvar">'+sp.name+(varTxt?'<br>'+varTxt:'')+'</div>'
+   +'<div class="docvar-wrap"><div class="docvar">'+sp.name+(varTxt?'<br>'+varTxt:'')+'</div></div>'
    +(missing.length?'<div style="text-align:center;color:#d64545;font-size:13px;margin-bottom:10px">⚠ 还有 '+missing.length+' 个变型条件未选择，下方仅显示通用条款，选完后自动补齐</div>':'')
    +body
    +'<div class="note">说明：本技术要求为该类物料的通用底线要求；所引用标准以现行有效版本为准；图纸、数模、技术协议中有更严要求时，从其要求。</div>'
