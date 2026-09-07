@@ -195,7 +195,7 @@ footer.page-foot{margin-top:26px;color:var(--ink-3);font-size:12px;text-align:ce
       <a class="nav-item" data-view="about" href="#/about"><span class="ico">ℹ</span>使用说明</a>
     </nav>
     <div class="sidebar-foot">
-      <div>版本 V1.2.2 · 与受控文件同步</div>
+      <div>版本 V1.2.3 · 与受控文件同步</div>
       <div>懋略 · 电池系统设计部</div>
     </div>
   </aside>
@@ -206,7 +206,7 @@ footer.page-foot{margin-top:26px;color:var(--ink-3);font-size:12px;text-align:ce
         <input id="searchInput" type="search" placeholder="搜索零部件 / 变更类型 / 验证项 / 技术要求关键词…（如：氦检漏 / 镀镍 / 扭脱力矩）" autocomplete="off">
         <div class="search-results" id="searchResults"></div>
       </div>
-      <span class="ver-pill">V1.2.2</span>
+      <span class="ver-pill">V1.2.3</span>
     </header>
     <main class="content" id="content"></main>
   </div>
@@ -459,10 +459,17 @@ function copySpec(){
 
 /* ============ 设计规则库（内嵌） ============ */
 function vRules(){
+  /* 令牌通过 iframe URL 片段（#k=）传递：不经过服务器、不进浏览器历史、不依赖
+     sessionStorage 跨框架共享，对所有浏览器（含隔离 iframe 存储的国产浏览器）都可靠。 */
+  var src = 'rules/index.html?v=123';
+  try{
+    var p = sessionStorage.getItem('cv_pass');
+    if(p) src += '#k=' + btoa(unescape(encodeURIComponent(p))).replace(/=+$/,'');
+  }catch(e){}
   return `
   <div class="page-head"><div class="page-title">设计规则库</div>
   <div class="page-desc">懋略设计规则库 · 电池包零部件设计规范 · 已随门户会话自动解锁（数据 AES-GCM 加密存储）</div></div>
-  <iframe class="rules-frame" src="rules/index.html" title="设计规则库" onload="rulesFrameLoad(this)"></iframe>`;
+  <iframe class="rules-frame" src="${src}" title="设计规则库" onload="rulesFrameLoad(this)"></iframe>`;
 }
 
 /* 门户侧兜底：iframe 加载完成后由父页面直接填令牌并调用规则库的 unlock()，
@@ -475,6 +482,8 @@ function rulesFrameLoad(f){
     if(!w || !d) return;
     var lock = d.getElementById('lock');
     if(!lock || lock.classList.contains('hide')) return;
+    var b = d.getElementById('lockBtn');
+    if(b && b.disabled) return; /* 规则库自己的解锁流程已进行中，避免并发 */
     var i = d.getElementById('lockInput');
     if(i && typeof w.unlock === 'function'){ i.value = p; w.unlock(); }
   }catch(e){}

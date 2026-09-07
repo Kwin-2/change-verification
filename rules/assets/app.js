@@ -37,6 +37,7 @@ async function unlock() {
   const err = document.getElementById('lockErr');
   const pass = (input.value || '').trim();
   if (!pass) { err.textContent = '请输入访问令牌'; return; }
+  if (btn.disabled) return; /* 重入保护：已有解锁流程在进行中 */
   btn.disabled = true;
   btn.textContent = '验证中…';
   err.textContent = '';
@@ -726,10 +727,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ---- 门户会话联动：同一标签页会话已在门户验证过令牌时自动解锁 ---- */
+/* ---- 门户会话联动：优先从 URL 片段（#k=，由门户 iframe src 传入，不上服务器、不留历史）取令牌；
+        其次从同会话 sessionStorage 取；均失败则保持手动输入。 ---- */
 (function(){
-  try{
-    var p = sessionStorage.getItem('cv_pass');
-    if(p){ var i=document.getElementById('lockInput'); if(i){ i.value=p; unlock(); } }
-  }catch(e){}
+  function fromHash(){
+    try{
+      var m = /#k=([A-Za-z0-9\-_]+)/.exec(location.hash);
+      if(!m) return null;
+      var s = m[1].replace(/-/g,'+').replace(/_/g,'/');
+      while(s.length % 4) s += '=';
+      return decodeURIComponent(escape(atob(s)));
+    }catch(e){ return null; }
+  }
+  var p = fromHash();
+  if(p){
+    /* 读完立即抹掉片段，避免地址栏/历史记录残留令牌 */
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+  }
+  if(!p){ try{ p = sessionStorage.getItem('cv_pass'); }catch(e){} }
+  if(!p) return;
+  var go = function(){
+    var lock = document.getElementById('lock');
+    var i = document.getElementById('lockInput');
+    if(lock && !lock.classList.contains('hide') && i){ i.value = p; unlock(); }
+  };
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+  else go();
 })();
