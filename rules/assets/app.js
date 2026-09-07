@@ -47,10 +47,20 @@ async function unlock() {
     const bytes = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
     const salt = bytes(b.salt);
     const iv = bytes(b.iv);
-    const baseKey = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveBits']);
-    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: b.iter, hash: 'SHA-256' }, baseKey, 256);
-    const key = await crypto.subtle.importKey('raw', bits, 'AES-GCM', false, ['decrypt']);
-    const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, bytes(b.data));
+    let pt;
+    if (window.crypto && crypto.subtle) {
+      const baseKey = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveBits']);
+      const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: b.iter, hash: 'SHA-256' }, baseKey, 256);
+      const key = await crypto.subtle.importKey('raw', bits, 'AES-GCM', false, ['decrypt']);
+      pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, bytes(b.data));
+    } else if (window.JSC) {
+      /* 内网 plain HTTP 等无 WebCrypto 环境：纯 JS 兜底解密（安全性等价，速度略慢） */
+      btn.textContent = '验证中…（兼容模式，请稍候）';
+      const keyBytes = await JSC.pbkdf2Sha256(new TextEncoder().encode(pass), salt, b.iter);
+      pt = JSC.aesGcmDecrypt(keyBytes, iv, bytes(b.data));
+    } else {
+      throw new Error('NO CRYPTO AVAILABLE');
+    }
     const payload = JSON.parse(new TextDecoder().decode(pt));
     if (payload.marker !== 'MORLUS-LOCK-V1') throw new Error('BAD MARKER');
     try { sessionStorage.setItem('cv_pass', pass); } catch (e2) {}
