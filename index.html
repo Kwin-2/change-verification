@@ -144,6 +144,7 @@ footer.page-foot{margin-top:26px;color:var(--ink-3);font-size:12px;text-align:ce
 .lock-err{color:var(--must);font-size:13px;min-height:20px;margin-top:10px}
 .lock-foot{color:var(--ink-3);font-size:11px;margin-top:18px}
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:#1c2733;color:#fff;padding:10px 22px;border-radius:999px;font-size:14px;opacity:0;transition:all .25s;z-index:300;pointer-events:none}
+.rules-frame{width:100%;height:calc(100vh - 175px);min-height:620px;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);background:#fff}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:900px){
   .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:90;transform:translateX(-100%);transition:transform .2s}
@@ -189,11 +190,12 @@ footer.page-foot{margin-top:26px;color:var(--ink-3);font-size:12px;text-align:ce
       <div class="nav-group-title">工具</div>
       <a class="nav-item" data-view="change" href="#/change"><span class="ico">⚡</span>变更验证速查字典</a>
       <a class="nav-item" data-view="spec" href="#/spec"><span class="ico">📐</span>技术要求速查</a>
+      <a class="nav-item" data-view="rules" href="#/rules"><span class="ico">📚</span>设计规则库</a>
       <div class="nav-group-title">其他</div>
       <a class="nav-item" data-view="about" href="#/about"><span class="ico">ℹ</span>使用说明</a>
     </nav>
     <div class="sidebar-foot">
-      <div>版本 V1.1 · 与受控文件同步</div>
+      <div>版本 V1.2 · 与受控文件同步</div>
       <div>懋略 · 电池系统设计部</div>
     </div>
   </aside>
@@ -204,7 +206,7 @@ footer.page-foot{margin-top:26px;color:var(--ink-3);font-size:12px;text-align:ce
         <input id="searchInput" type="search" placeholder="搜索零部件 / 变更类型 / 验证项 / 技术要求关键词…（如：氦检漏 / 镀镍 / 扭脱力矩）" autocomplete="off">
         <div class="search-results" id="searchResults"></div>
       </div>
-      <span class="ver-pill">V1.1</span>
+      <span class="ver-pill">V1.2</span>
     </header>
     <main class="content" id="content"></main>
   </div>
@@ -225,7 +227,7 @@ const LV_ORDER = {"A":3,"A/B":2,"B":1,"C":0};
   if(sessionStorage.getItem('cv_auth')==='1'){lock.remove();return;}
   document.title="访问验证 · 懋略设计部";
   var inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');
-  function ok(){sessionStorage.setItem('cv_auth','1');lock.remove();document.title='懋略设计部 · PACK零部件工具库';}
+  function ok(){sessionStorage.setItem('cv_auth','1');try{sessionStorage.setItem('cv_pass',inp.value);}catch(e){}lock.remove();document.title='懋略设计部 · PACK零部件工具库';}
   function bad(){err.textContent='令牌错误，请重试';card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');inp.value='';inp.focus();}
   function tryLogin(){
     var v=inp.value;
@@ -251,7 +253,7 @@ let cComp=null, cTypes=new Set(), checked=new Set();
 let sSpec=null, sOpt={};
 
 /* ============ 路由 ============ */
-function view(){const h=location.hash.replace('#/','');return ['home','change','spec','about'].includes(h)?h:'home';}
+function view(){const h=location.hash.replace('#/','');return ['home','change','spec','rules','about'].includes(h)?h:'home';}
 function nav(){document.querySelectorAll('.nav-item').forEach(a=>a.classList.toggle('active',a.dataset.view===view()));
   document.getElementById('sidebar').classList.remove('open');render();}
 window.addEventListener('hashchange',nav);
@@ -280,6 +282,11 @@ function vHome(){
       <div class="dc-ico">📐</div>
       <div class="dc-title">技术要求速查</div>
       <div class="dc-sub">选择物料分类 → 收敛材质/工艺/表面处理等变型条件，生成该变型的标准化产品技术要求全文（含检验规则与试验方法标准号），一键复制或打印。</div>
+    </div>
+    <div class="doc-card" onclick="location.hash='#/rules'">
+      <div class="dc-ico">📚</div>
+      <div class="dc-title">设计规则库</div>
+      <div class="dc-sub">电池包零部件设计规范在线自查库：按制造工艺浏览规范、零件检索、表面处理选型、在线自查清单（数据加密存储，门户会话内自动解锁）。</div>
     </div>
   </div>
   <div class="callout tip" style="margin-top:18px"><b>提示</b>顶栏支持全库关键词搜索（如"氦检漏""镀镍""扭脱力矩"）；本工具结果供快速参考，正式放行以会签的《变更验证计划单》和受控版 ML-TS 文件为准。</div>
@@ -450,6 +457,14 @@ function copySpec(){
   navigator.clipboard.writeText(txt).then(()=>toast('技术要求全文已复制'));
 }
 
+/* ============ 设计规则库（内嵌） ============ */
+function vRules(){
+  return `
+  <div class="page-head"><div class="page-title">设计规则库</div>
+  <div class="page-desc">懋略设计规则库 · 电池包零部件设计规范 · 已随门户会话自动解锁（数据 AES-GCM 加密存储）</div></div>
+  <iframe class="rules-frame" src="rules/index.html" title="设计规则库"></iframe>`;
+}
+
 /* ============ 使用说明 ============ */
 function vAbout(){
   return `
@@ -527,7 +542,7 @@ function goSearch(v,id,types){
 /* ============ 渲染入口 ============ */
 function render(){
   const v=view();
-  content.innerHTML = v==='home'?vHome():v==='change'?vChange():v==='spec'?vSpec():vAbout();
+  content.innerHTML = v==='home'?vHome():v==='change'?vChange():v==='spec'?vSpec():v==='rules'?vRules():vAbout();
   if(v==='change')updateProg();
 }
 nav();
