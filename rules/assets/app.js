@@ -53,6 +53,7 @@ async function unlock() {
     const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, bytes(b.data));
     const payload = JSON.parse(new TextDecoder().decode(pt));
     if (payload.marker !== 'MORLUS-LOCK-V1') throw new Error('BAD MARKER');
+    try { sessionStorage.setItem('cv_pass', pass); } catch (e2) {}
     DATA.docs = payload.docs || {};
     DATA.parts = (payload.parts && payload.parts.parts) || [];
     DATA.surface = payload.surface;
